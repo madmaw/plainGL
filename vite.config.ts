@@ -1,0 +1,30 @@
+// import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import eslint from 'vite-plugin-eslint';
+import tsconfigPaths from 'vite-tsconfig-paths';
+
+export default defineConfig({
+  base: '',
+  plugins: [
+    tsconfigPaths(),
+    eslint({
+      lintOnStart: true,
+    }),
+    // react({
+    //   babel: {
+    //     plugins: [
+    //       'macros',
+    //       [
+    //         '@babel/plugin-proposal-decorators',
+    //         {
+    //           'version': '2023-05',
+    //         },
+    //       ],
+    //     ],
+    //   },
+    // }),
+  ],
+  css: {
+    devSourcemap: true,
+  },
+});
