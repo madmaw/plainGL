@@ -48,7 +48,6 @@ module.exports = {
           quoteStyle: 'alwaysSingle',
           'functionExpression.spaceBeforeParentheses': true,
           trailingCommas: 'onlyMultiLine',
-          'typeParameters.trailingCommas': 'never',
           quoteProps: 'asNeeded',
           'parameters.preferHanging': 'onlySingleItem',
           preferHanging: true,

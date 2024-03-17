@@ -14,10 +14,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.24.0",
     "@types/react-dom": "^18.2.21",
     "@types/string-format": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
+    "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.57.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-dprint-integration": "^0.3.0",

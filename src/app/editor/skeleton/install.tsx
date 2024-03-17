@@ -1,13 +1,10 @@
-import styled from '@emotion/styled';
 import { Skeleton } from './skeleton';
 
-export function install() {
-  const NavigationContainer = styled.div`
-    min-width: 200px;
-    background-color: black;
-    height: 100%;
-  `;
-
+export function install({
+  Navigation,
+}: {
+  Navigation: React.ComponentType,
+}) {
   return function () {
     const Detail = () => (
       <div>
@@ -30,7 +27,7 @@ export function install() {
     return (
       <Skeleton
         Header={Toolbar}
-        Master={NavigationContainer}
+        Master={Navigation}
         Detail={Detail}
         Footer={Status}
       />

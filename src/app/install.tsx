@@ -1,8 +1,12 @@
 import { install as installEditor } from './editor/install';
-import { install as installComponnets } from './ui/components/install';
+import { install as installUI } from './ui/install';
 
 export function install() {
-  const { MasterDetail } = installComponnets();
-  const Editor = installEditor();
+  const {
+    Tree,
+  } = installUI();
+  const Editor = installEditor({
+    SceneNavigationTree: Tree,
+  });
   return Editor;
 }

@@ -1,3 +1,5 @@
+import { projectDescriptor } from 'app/editor/model';
+import { PROJECT } from 'app/editor/prototypes';
 import { install } from 'app/install';
 import { checkExists } from 'base/preconditions';
 import { createRoot } from 'react-dom/client';
@@ -10,5 +12,7 @@ window.addEventListener('load', function () {
   );
   const App = install();
 
-  app.render(<App />);
+  const project = projectDescriptor.create(PROJECT);
+
+  app.render(<App project={project} />);
 });

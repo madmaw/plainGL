@@ -140,10 +140,10 @@ export const sceneDescriptor = recordDescriptor({
 export type Scene = typeof sceneDescriptor['aState'];
 export type MutableScene = typeof sceneDescriptor['aMutable'];
 
-export const documentDescriptor = recordDescriptor({
+export const projectDescriptor = recordDescriptor({
   name: optionalStringDescriptor,
   scenes: listDescriptor(sceneDescriptor),
 });
 
-export type Document = typeof documentDescriptor['aState'];
-export type MutableDocument = typeof documentDescriptor['aMutable'];
+export type Project = typeof projectDescriptor['aState'];
+export type MutableProject = typeof projectDescriptor['aMutable'];

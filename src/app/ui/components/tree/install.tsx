@@ -1,4 +1,3 @@
-import { type Metrics } from 'app/ui/metrics';
 import { observer } from 'mobx-react';
 import {
   useCallback,
@@ -18,11 +17,9 @@ import { type TreeProps } from './types';
 export function install({
   ExpandedOrCollapsedIcon,
   TreeGuideIcon,
-  metrics,
 }: {
   ExpandedOrCollapsedIcon: React.ComponentType<{ expanded: boolean }>,
-  TreeGuideIcon: GuideIcon | undefined,
-  metrics: Metrics,
+  TreeGuideIcon: GuideIcon,
 }) {
   const TreeOpenButton = function ({
     open,
@@ -48,7 +45,6 @@ export function install({
             {...props}
             OpenButton={TreeOpenButton}
             GuideIcon={TreeGuideIcon}
-            depthIndentPx={metrics.gridBaseline}
             ListItem={TreeListItemContent}
           />
         );

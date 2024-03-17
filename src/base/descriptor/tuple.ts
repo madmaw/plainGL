@@ -31,7 +31,7 @@ class TupleTypeDescriptor<ElementTypeDescriptors extends readonly TypeDescriptor
 
   snapshot(m: TupleMutable<ElementTypeDescriptors>): TupleState<ElementTypeDescriptors> {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    return m.map((v, i) => this.elementTypeDescriptors[i].snapshot(v)) as TupleMutable<ElementTypeDescriptors>;
+    return m.map((v, i) => this.elementTypeDescriptors[i].snapshot(v)) as TupleState<ElementTypeDescriptors>;
   }
 
   freeze(s: TupleState<ElementTypeDescriptors>): TupleState<ElementTypeDescriptors> {

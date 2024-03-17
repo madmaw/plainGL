@@ -16,23 +16,23 @@ export const enum SceneNavigationItemType {
 
 export type SceneNavigationItem =
   | {
-    type: SceneNavigationItemType.Scene,
-    value: Scene,
+    readonly type: SceneNavigationItemType.Scene,
+    readonly value: Scene,
   }
   | {
-    type: SceneNavigationItemType.Solid,
-    value: Solid,
+    readonly type: SceneNavigationItemType.Solid,
+    readonly value: Solid,
   }
   | {
-    type: SceneNavigationItemType.ConcaveSolid,
-    value: ConcaveSolid,
+    readonly type: SceneNavigationItemType.ConcaveSolid,
+    readonly value: ConcaveSolid,
   }
   | {
-    type: SceneNavigationItemType.ConvexSolid,
-    value: ConvexSolid,
-    subtraction: boolean,
+    readonly type: SceneNavigationItemType.ConvexSolid,
+    readonly value: ConvexSolid,
+    readonly subtraction: boolean,
   }
   | {
-    type: SceneNavigationItemType.Plane,
-    value: Plane,
+    readonly type: SceneNavigationItemType.Plane,
+    readonly value: Plane,
   };

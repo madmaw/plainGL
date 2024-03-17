@@ -2,21 +2,26 @@ import {
   useCallback,
   useMemo,
 } from 'react';
+import { type PipeStyle } from 'ui/components/icon/tree_guide';
 import { List } from 'ui/components/list';
+
+export const enum OpenState {
+  Open,
+  Closed,
+  Childless,
+}
 
 export type TreeItem<T> = {
   key: string,
   value: T,
-  open: boolean,
-  depth: number,
-  lastChild: boolean,
+  open: OpenState,
+  pipes: readonly PipeStyle[],
 };
 
 export type TreeListItemProps<T> = {
   value: T,
-  depth: number,
-  lastChild: boolean,
-  open: boolean,
+  pipes: readonly PipeStyle[],
+  open: OpenState,
   onToggleOpen: () => void,
 };
 
@@ -43,8 +48,7 @@ export function Tree<T>(props: TreeProps<T>) {
   const TreeListItemImpl = useCallback(function ({
     value,
     open,
-    depth,
-    lastChild,
+    pipes,
   }: TreeItem<T>) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const onListItemToggleOpen = useCallback(() => {
@@ -54,9 +58,8 @@ export function Tree<T>(props: TreeProps<T>) {
       <TreeListItem
         open={open}
         value={value}
+        pipes={pipes}
         onToggleOpen={onListItemToggleOpen}
-        depth={depth}
-        lastChild={lastChild}
       />
     );
   }, [

@@ -13,7 +13,8 @@ type Mutable = {
 };
 
 type State = {
-  __aMutable?: never,
+  // i don't know under what circumstances we would care that a mutable had been supplied as a readonly state
+  // __aMutable?: never,
 };
 
 type RecordState<

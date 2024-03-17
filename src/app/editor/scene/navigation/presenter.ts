@@ -5,15 +5,28 @@ import {
   type Scene,
   type Solid,
 } from 'app/editor/model';
+import { map } from 'base/graph/map';
 import {
   computed,
   observable,
 } from 'mobx';
-import { type TreeItem } from 'ui/components/tree/tree';
+import { PipeStyle } from 'ui/components/icon/tree_guide';
 import {
-  type SceneNavigationItem,
-  SceneNavigationItemType,
-} from './types';
+  OpenState,
+  type TreeItem,
+} from 'ui/components/tree/tree';
+import {
+  type BaseSceneNode,
+  SceneNode,
+} from './graph';
+import { type SceneNavigationItem } from './types';
+
+export type ExpandableTypes =
+  | Scene
+  | Solid
+  | ConvexSolid
+  | ConcaveSolid
+  | Plane;
 
 export class SceneNavigationTreePresenter {
   toggleOpen(model: SceneNavigationTreeModel, { value }: SceneNavigationItem) {
@@ -25,120 +38,47 @@ export class SceneNavigationTreePresenter {
   }
 }
 
-type SceneNavigationItemWithIndices = SceneNavigationItem & {
-  readonly indices: readonly number[],
-  readonly lengths: readonly number[],
-};
-
 export class SceneNavigationTreeModel {
-  @observable.shallow
-  readonly collapsedItems = new Set<Scene | Solid | ConvexSolid | ConcaveSolid | Plane>();
+  readonly collapsedItems = observable.set<ExpandableTypes>();
 
   @computed.struct
   get items(): readonly TreeItem<SceneNavigationItem>[] {
-    return this.walkScenes([this.scene], []).map(
-      (item): TreeItem<SceneNavigationItem> => {
+    return map<SceneNavigationItem, TreeItem<SceneNavigationItem>>(
+      new SceneNode(this.scene, this.collapsedItems),
+      (node, path, indices) => {
+        const { value } = node;
+        // TODO can we avoid this cast somehow?
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+        const sceneNode = node as BaseSceneNode;
+        const open = sceneNode.expandedConnections.length === 0
+          ? OpenState.Childless
+          : this.collapsedItems.has(value.value)
+          ? OpenState.Closed
+          : OpenState.Open;
+        const parent = path.length > 0
+          ? path[path.length - 1]
+          : undefined;
+        const pipes = indices.map((index, i) => {
+          const pathNode = path[i];
+          const lastChild = parent == null
+            ? true
+            : pathNode.connections.length === index + 1;
+          return lastChild
+            ? i === indices.length - 1
+              ? PipeStyle.Bent
+              : PipeStyle.None
+            : i === indices.length - 1
+            ? PipeStyle.Split
+            : PipeStyle.Vertical;
+        });
         return {
-          key: item.indices.join(),
-          value: item,
-          open: !this.collapsedItems.has(item.value),
-          depth: item.indices.length,
-          lastChild: false,
+          key: indices.join(),
+          value,
+          open,
+          pipes,
         };
       },
     );
-  }
-
-  private walkScenes(
-    scenes: readonly Scene[],
-    parentIndices: readonly number[],
-  ): readonly SceneNavigationItemWithIndices[] {
-    return scenes.flatMap((scene, index) => {
-      const open = !this.collapsedItems.has(scene);
-      const indices = [
-        ...parentIndices,
-        index,
-      ];
-      return [
-        {
-          type: SceneNavigationItemType.Scene,
-          value: scene,
-        },
-        ...this.walkSolids(scene.solids, indices),
-      ];
-    });
-  }
-
-  private walkSolids(solids: readonly Solid[], parentIndices: number[]): readonly TreeItem<SceneNavigationItem>[] {
-    return solids.flatMap((solid, index) => {
-      const indices = [
-        ...parentIndices,
-        index,
-      ];
-      return [
-        {
-          type: SceneNavigationItemType.Solid,
-          value: solid,
-          indices,
-        },
-        ...this.walkConcaveSolids(solid.parts, indices),
-      ];
-    });
-  }
-
-  private walkConcaveSolids(solids: readonly ConcaveSolid[], parentIndices: number[]): readonly SceneNavigationRow[] {
-    return solids.flatMap((solid, index) => {
-      const indices = [
-        ...parentIndices,
-        index,
-      ];
-      return [
-        {
-          type: SceneNavigationItemType.ConcaveSolid,
-          value: solid,
-          indices,
-        },
-        ...this.walkConvexSolids([solid.base], indices, false, 0),
-        ...this.walkConvexSolids(solid.subtractions, indices, true, 1),
-      ];
-    });
-  }
-
-  private walkConvexSolids(
-    solids: readonly ConvexSolid[],
-    parentIndices: readonly number[],
-    subtraction: boolean,
-    indexOffset: number,
-  ): readonly SceneNavigationItem[] {
-    return solids.flatMap((solid, index) => {
-      const indices = [
-        ...parentIndices,
-        index + indexOffset,
-      ];
-      return [
-        {
-          type: SceneNavigationItemType.ConvexSolid,
-          value: solid,
-          subtraction,
-          indices,
-        },
-        ...this.walkPlanes(solid.planes, indices),
-      ];
-    });
-  }
-
-  private walkPlanes(planes: readonly Plane[], parentIndices: readonly number[]): readonly SceneNavigationItem[] {
-    return planes.map((plane, index) => {
-      const indices = [
-        ...parentIndices,
-        index,
-      ];
-      return {
-        type: SceneNavigationItemType.Plane,
-        value: plane,
-        indices,
-      };
-    });
   }
 
   constructor(private readonly scene: Scene) {
