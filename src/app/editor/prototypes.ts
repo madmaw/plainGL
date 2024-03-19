@@ -1,6 +1,7 @@
 import {
   type ConvexSolid,
   type Project,
+  type Scenery,
   ShaderType,
   WebGLVersion,
 } from 'app/editor/model';
@@ -95,29 +96,79 @@ export const CUBE: ConvexSolid = {
   ],
 };
 
+const CUBE_SCENERY: Scenery = {
+  attributes: new Map(),
+  uniforms: new Map(),
+  solid: CUBE,
+  program: undefined,
+};
+
 export const PROJECT: Project = {
   name: 'test project',
   scenes: [
     {
       name: 'test scene',
-      solids: [
+      scenery: [
         {
-          ...CUBE,
-          name: 'test solid 1',
-          offset: [
-            -2,
-            0,
-            0,
-          ],
+          ...CUBE_SCENERY,
+          solid: {
+            ...CUBE,
+            name: 'test solid 1',
+            offset: [
+              -2,
+              0,
+              0,
+            ],
+          },
         },
         {
-          ...CUBE,
-          name: 'test solid 2',
-          offset: [
-            2,
-            0,
-            0,
-          ],
+          ...CUBE_SCENERY,
+          solid: {
+            name: 'test composite 1',
+            additions: [
+              {
+                ...CUBE,
+                name: 'test addition 1',
+                offset: [
+                  2,
+                  0,
+                  0,
+                ],
+              },
+            ],
+            removals: [
+              {
+                name: 'test removal 1',
+                planes: [
+                  {
+                    attributes: new Map(),
+                    normal: [
+                      1,
+                      0,
+                      0,
+                    ],
+                    position: [
+                      0,
+                      0,
+                      0,
+                    ],
+                  },
+                ],
+                attributes: new Map(),
+                offset: [
+                  2,
+                  0,
+                  0,
+                ],
+              },
+            ],
+            attributes: new Map(),
+            offset: [
+              0,
+              0,
+              0,
+            ],
+          },
         },
       ],
       program: {

@@ -111,9 +111,9 @@ export const shaderParametersDescriptor = mapDescriptor(
 export type ShaderParameters = typeof shaderParametersDescriptor.aState;
 export type MutableShaderParameters = typeof shaderParametersDescriptor.aMutable;
 
+// break the circular reference by explicitly stating types here
 // export type Solid = typeof solidDescriptor['aState'];
 // export type MutableSolid = typeof solidDescriptor['aMutable'];
-
 export type Solid = ConvexSolid | CompositeSolid;
 export type MutableSolid = MutableConvexSolid | MutableCompositeSolid;
 export const solidDescriptor: TypeDescriptor<Solid, MutableSolid> = deferredDescriptor(
@@ -172,12 +172,21 @@ export const compositeSolidDescriptor = recordDescriptor({
   attributes: shaderParametersDescriptor,
 });
 
+export type Scenery = typeof sceneryDescriptor['aState'];
+export type MutableScenery = typeof sceneryDescriptor['aMutable'];
+export const sceneryDescriptor = recordDescriptor({
+  solid: solidDescriptor,
+  program: optionalDescriptor(programDescriptor),
+  attributes: shaderParametersDescriptor,
+  uniforms: shaderParametersDescriptor,
+});
+
 export type Scene = typeof sceneDescriptor['aState'];
 export type MutableScene = typeof sceneDescriptor['aMutable'];
 export const sceneDescriptor = recordDescriptor({
   name: optionalStringDescriptor,
-  solids: listDescriptor(solidDescriptor),
-  program: programDescriptor,
+  scenery: listDescriptor(sceneryDescriptor),
+  program: optionalDescriptor(programDescriptor),
   attributes: shaderParametersDescriptor,
   uniforms: shaderParametersDescriptor,
 });

@@ -1,6 +1,5 @@
 import {
-  type ConcaveSolid,
-  type ConvexSolid,
+  type CompositeSolid,
   type Plane,
   type Scene,
   type Solid,
@@ -19,32 +18,65 @@ import {
   type BaseSceneNode,
   SceneNode,
 } from './graph';
-import { type SceneNavigationItem } from './types';
+import {
+  type SceneNavigationItem,
+  SceneNavigationItemType,
+} from './types';
 
 export type ExpandableTypes =
   | Scene
   | Solid
-  | ConvexSolid
-  | ConcaveSolid
   | Plane;
 
 export class SceneNavigationTreePresenter {
-  toggleOpen(model: SceneNavigationTreeModel, { value }: SceneNavigationItem) {
-    if (model.collapsedItems.has(value)) {
-      model.collapsedItems.delete(value);
-    } else {
-      model.collapsedItems.add(value);
+  toggleOpen(model: SceneNavigationTreeModel, item: SceneNavigationItem) {
+    const collapsed = model.isCollapsed(item);
+    switch (item.type) {
+      case SceneNavigationItemType.CompositeSolidAdditions:
+        if (collapsed) {
+          model.collapsedCompositeSolidAdditions.delete(item.value);
+        } else {
+          model.collapsedCompositeSolidAdditions.add(item.value);
+        }
+        break;
+      case SceneNavigationItemType.CompositeSolidRemovals:
+        if (collapsed) {
+          model.collapsedCompositeSolidRemovals.delete(item.value);
+        } else {
+          model.collapsedCompositeSolidRemovals.add(item.value);
+        }
+        break;
+      default:
+        if (collapsed) {
+          model.collapsedItems.delete(item.value);
+        } else {
+          model.collapsedItems.add(item.value);
+        }
+        break;
     }
   }
 }
 
 export class SceneNavigationTreeModel {
   readonly collapsedItems = observable.set<ExpandableTypes>();
+  readonly collapsedCompositeSolidAdditions = observable.set<CompositeSolid>();
+  readonly collapsedCompositeSolidRemovals = observable.set<CompositeSolid>();
+
+  isCollapsed(item: SceneNavigationItem) {
+    switch (item.type) {
+      case SceneNavigationItemType.CompositeSolidAdditions:
+        return this.collapsedCompositeSolidAdditions.has(item.value);
+      case SceneNavigationItemType.CompositeSolidRemovals:
+        return this.collapsedCompositeSolidRemovals.has(item.value);
+      default:
+        return this.collapsedItems.has(item.value);
+    }
+  }
 
   @computed.struct
   get items(): readonly TreeItem<SceneNavigationItem>[] {
     return map<SceneNavigationItem, TreeItem<SceneNavigationItem>>(
-      new SceneNode(this.scene, this.collapsedItems),
+      new SceneNode(this.scene, this.isCollapsed.bind(this)),
       (node, path, indices) => {
         const { value } = node;
         // TODO can we avoid this cast somehow?
@@ -52,7 +84,7 @@ export class SceneNavigationTreeModel {
         const sceneNode = node as BaseSceneNode;
         const open = sceneNode.expandedConnections.length === 0
           ? OpenState.Childless
-          : this.collapsedItems.has(value.value)
+          : this.isCollapsed(value)
           ? OpenState.Closed
           : OpenState.Open;
         const parent = path.length > 0

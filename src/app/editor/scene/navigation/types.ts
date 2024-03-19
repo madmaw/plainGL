@@ -2,6 +2,7 @@ import {
   type CompositeSolid,
   type Plane,
   type Scene,
+  type Scenery,
   type Solid,
 } from 'app/editor/model';
 
@@ -21,6 +22,7 @@ export type SceneNavigationItem =
   | {
     readonly type: SceneNavigationItemType.Solid,
     readonly value: Solid,
+    readonly scenery?: Scenery,
   }
   | {
     readonly type: SceneNavigationItemType.CompositeSolidAdditions,
