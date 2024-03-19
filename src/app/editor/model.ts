@@ -113,17 +113,6 @@ export type MutableShaderParameters = typeof shaderParametersDescriptor.aMutable
 
 // export type Solid = typeof solidDescriptor['aState'];
 // export type MutableSolid = typeof solidDescriptor['aMutable'];
-// const s: Solid = {
-//   name: 'cube 1',
-//   planes: [],
-//   // parts: [],
-//   offset: [
-//     0,
-//     0,
-//     0,
-//   ],
-//   attributes: new Map(),
-// };
 
 export type Solid = ConvexSolid | CompositeSolid;
 export type MutableSolid = MutableConvexSolid | MutableCompositeSolid;
@@ -183,6 +172,8 @@ export const compositeSolidDescriptor = recordDescriptor({
   attributes: shaderParametersDescriptor,
 });
 
+export type Scene = typeof sceneDescriptor['aState'];
+export type MutableScene = typeof sceneDescriptor['aMutable'];
 export const sceneDescriptor = recordDescriptor({
   name: optionalStringDescriptor,
   solids: listDescriptor(solidDescriptor),
@@ -190,9 +181,6 @@ export const sceneDescriptor = recordDescriptor({
   attributes: shaderParametersDescriptor,
   uniforms: shaderParametersDescriptor,
 });
-
-export type Scene = typeof sceneDescriptor['aState'];
-export type MutableScene = typeof sceneDescriptor['aMutable'];
 
 export const projectDescriptor = recordDescriptor({
   name: optionalStringDescriptor,
