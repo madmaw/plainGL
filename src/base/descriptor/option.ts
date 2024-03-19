@@ -9,9 +9,9 @@ class OptionalTypeDescriptor<MandatoryTypeDescriptor extends TypeDescriptor>
 {
   constructor(private readonly mandatoryTypeDescriptor: MandatoryTypeDescriptor) {}
 
-  aState!: MandatoryTypeDescriptor['aState'] | undefined;
+  aState!: OptionalState<MandatoryTypeDescriptor>;
 
-  aMutable!: MandatoryTypeDescriptor['aMutable'] | undefined;
+  aMutable!: OptionalMutable<MandatoryTypeDescriptor>;
 
   create(s: OptionalState<MandatoryTypeDescriptor>): OptionalMutable<MandatoryTypeDescriptor> {
     return s != null ? this.mandatoryTypeDescriptor.create(s) : undefined;

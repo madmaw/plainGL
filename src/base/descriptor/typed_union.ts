@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 import { type TypeDescriptor } from './types';
 
-type UnionState<
+type TypedUnionState<
   TypeDescriptors extends Readonly<Record<Key, TypeDescriptor>>,
   Key extends string | number | symbol,
 > = {
@@ -9,7 +9,7 @@ type UnionState<
   readonly value: TypeDescriptors[Key]['aState'],
 };
 
-type UnionMutable<
+type TypedUnionMutable<
   TypeDescriptors extends Readonly<Record<Key, TypeDescriptor>>,
   Key extends string | number | symbol,
 > = {
@@ -17,20 +17,20 @@ type UnionMutable<
   value: TypeDescriptors[Key]['aMutable'],
 };
 
-class UnionTypeDescriptor<
+class TypedUnionTypeDescriptor<
   TypeDescriptors extends Readonly<Record<Key, TypeDescriptor>>,
   Key extends string | number | symbol = keyof TypeDescriptors,
-> implements TypeDescriptor<UnionState<TypeDescriptors, Key>, UnionMutable<TypeDescriptors, Key>> {
+> implements TypeDescriptor<TypedUnionState<TypeDescriptors, Key>, TypedUnionMutable<TypeDescriptors, Key>> {
   constructor(private readonly typeDescriptors: TypeDescriptors) {}
 
-  aState!: UnionState<TypeDescriptors, Key>;
+  aState!: TypedUnionState<TypeDescriptors, Key>;
 
-  aMutable!: UnionMutable<TypeDescriptors, Key>;
+  aMutable!: TypedUnionMutable<TypeDescriptors, Key>;
 
   create({
     type,
     value,
-  }: UnionState<TypeDescriptors, Key>): UnionMutable<TypeDescriptors, Key> {
+  }: TypedUnionState<TypeDescriptors, Key>): TypedUnionMutable<TypeDescriptors, Key> {
     return observable({
       type,
       value: this.typeDescriptors[type].create(value),
@@ -40,7 +40,7 @@ class UnionTypeDescriptor<
   snapshot({
     type,
     value,
-  }: UnionMutable<TypeDescriptors, Key>): UnionState<TypeDescriptors, Key> {
+  }: TypedUnionMutable<TypeDescriptors, Key>): TypedUnionState<TypeDescriptors, Key> {
     return {
       type,
       value: this.typeDescriptors[type].snapshot(value),
@@ -50,7 +50,7 @@ class UnionTypeDescriptor<
   freeze({
     type,
     value,
-  }: UnionState<TypeDescriptors, Key>): UnionState<TypeDescriptors, Key> {
+  }: TypedUnionState<TypeDescriptors, Key>): TypedUnionState<TypeDescriptors, Key> {
     return {
       type,
       value: this.typeDescriptors[type].freeze(value),
@@ -58,9 +58,9 @@ class UnionTypeDescriptor<
   }
 }
 
-export function unionDescriptor<
+export function typedUnionDescriptor<
   TypeDescriptors extends Readonly<Record<Key, TypeDescriptor>>,
   Key extends string | number | symbol = keyof TypeDescriptors,
 >(typeDescriptors: TypeDescriptors) {
-  return new UnionTypeDescriptor(typeDescriptors);
+  return new TypedUnionTypeDescriptor(typeDescriptors);
 }

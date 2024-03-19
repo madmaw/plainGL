@@ -17,11 +17,11 @@ type State = {
   // __aMutable?: never,
 };
 
-type RecordState<
+export type RecordState<
   Attributes extends TypeDescriptors,
 > = { [K in keyof Attributes]: Attributes[K]['aState'] } & State;
 
-type RecordMutable<
+export type RecordMutable<
   Attributes extends TypeDescriptors,
 > = { [K in keyof Attributes]: Attributes[K]['aMutable'] } & Mutable;
 

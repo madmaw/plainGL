@@ -1,6 +1,5 @@
 import {
-  type ConcaveSolid,
-  type ConvexSolid,
+  type CompositeSolid,
   type Plane,
   type Scene,
   type Solid,
@@ -70,49 +69,48 @@ class SolidNode extends BaseSceneNode {
   }
 
   protected override calculateExpandedConnections(): readonly Node<SceneNavigationItem>[] {
-    return this.solid.parts.map(part => new ConcaveSolidNode(part, this.collapsedNodes));
+    if (this.solid.planes == null) {
+      return [
+        new CompositeSolidAdditionsNode(this.solid, this.collapsedNodes),
+        new CompositeSolidRemovalsNode(this.solid, this.collapsedNodes),
+      ];
+    }
+
+    return this.solid.planes.map(plane => new PlaneNode(plane, this.collapsedNodes));
   }
 }
 
-class ConcaveSolidNode extends BaseSceneNode {
-  constructor(private readonly concaveSolid: ConcaveSolid, collapsedNodes: ReadonlySet<ExpandableTypes>) {
+class CompositeSolidAdditionsNode extends BaseSceneNode {
+  constructor(private readonly concaveSolid: CompositeSolid, collapsedNodes: ReadonlySet<ExpandableTypes>) {
     super(collapsedNodes);
   }
 
   protected override calculateValue(): SceneNavigationItem {
     return {
-      type: SceneNavigationItemType.ConcaveSolid,
+      type: SceneNavigationItemType.CompositeSolidAdditions,
       value: this.concaveSolid,
     };
   }
 
   protected override calculateExpandedConnections(): readonly Node<SceneNavigationItem>[] {
-    return [
-      new ConvexSolidNode(this.concaveSolid.base, false, this.collapsedNodes),
-      ...this.concaveSolid.subtractions.map(subtraction => new ConvexSolidNode(subtraction, true, this.collapsedNodes)),
-    ];
+    return this.concaveSolid.additions.map(addition => new SolidNode(addition, this.collapsedNodes));
   }
 }
 
-class ConvexSolidNode extends BaseSceneNode {
-  constructor(
-    private readonly convexSolid: ConvexSolid,
-    private readonly subtraction: boolean,
-    collapsedNodes: ReadonlySet<ExpandableTypes>,
-  ) {
+class CompositeSolidRemovalsNode extends BaseSceneNode {
+  constructor(private readonly concaveSolid: CompositeSolid, collapsedNodes: ReadonlySet<ExpandableTypes>) {
     super(collapsedNodes);
   }
 
   protected override calculateValue(): SceneNavigationItem {
     return {
-      type: SceneNavigationItemType.ConvexSolid,
-      value: this.convexSolid,
-      subtraction: this.subtraction,
+      type: SceneNavigationItemType.CompositeSolidRemovals,
+      value: this.concaveSolid,
     };
   }
 
   protected override calculateExpandedConnections(): readonly Node<SceneNavigationItem>[] {
-    return this.convexSolid.planes.map(plane => new PlaneNode(plane, this.collapsedNodes));
+    return this.concaveSolid.removals.map(removal => new SolidNode(removal, this.collapsedNodes));
   }
 }
 

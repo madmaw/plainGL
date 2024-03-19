@@ -2,7 +2,6 @@ import {
   type ConvexSolid,
   type Project,
   ShaderType,
-  type Solid,
   WebGLVersion,
 } from 'app/editor/model';
 
@@ -96,30 +95,6 @@ export const CUBE: ConvexSolid = {
   ],
 };
 
-export const CUBE_SOLID: Solid = {
-  name: undefined,
-  offset: [
-    0,
-    0,
-    0,
-  ],
-  attributes: new Map(),
-  parts: [
-    {
-      name: 'test concave solid',
-      attributes: new Map(),
-      base: CUBE,
-      offset: [
-        0,
-        0,
-        0,
-      ],
-      subtractions: [],
-    },
-  ],
-  uniforms: new Map(),
-};
-
 export const PROJECT: Project = {
   name: 'test project',
   scenes: [
@@ -127,7 +102,7 @@ export const PROJECT: Project = {
       name: 'test scene',
       solids: [
         {
-          ...CUBE_SOLID,
+          ...CUBE,
           name: 'test solid 1',
           offset: [
             -2,
@@ -136,7 +111,7 @@ export const PROJECT: Project = {
           ],
         },
         {
-          ...CUBE_SOLID,
+          ...CUBE,
           name: 'test solid 2',
           offset: [
             2,

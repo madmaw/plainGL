@@ -1,6 +1,5 @@
 import {
-  type ConcaveSolid,
-  type ConvexSolid,
+  type CompositeSolid,
   type Plane,
   type Scene,
   type Solid,
@@ -9,8 +8,8 @@ import {
 export const enum SceneNavigationItemType {
   Scene = 1,
   Solid,
-  ConcaveSolid,
-  ConvexSolid,
+  CompositeSolidAdditions,
+  CompositeSolidRemovals,
   Plane,
 }
 
@@ -24,13 +23,12 @@ export type SceneNavigationItem =
     readonly value: Solid,
   }
   | {
-    readonly type: SceneNavigationItemType.ConcaveSolid,
-    readonly value: ConcaveSolid,
+    readonly type: SceneNavigationItemType.CompositeSolidAdditions,
+    readonly value: CompositeSolid,
   }
   | {
-    readonly type: SceneNavigationItemType.ConvexSolid,
-    readonly value: ConvexSolid,
-    readonly subtraction: boolean,
+    readonly type: SceneNavigationItemType.CompositeSolidRemovals,
+    readonly value: CompositeSolid,
   }
   | {
     readonly type: SceneNavigationItemType.Plane,
