@@ -8,29 +8,33 @@ export const enum PipeStyle {
   Split = 3,
 }
 
-export function TreeGuideIcon(props: IconProps & { pipeStyle: PipeStyle }) {
+export function TreeGuideIcon(props: IconProps & { pipeStyle: PipeStyle, width?: number }) {
   const {
-    size,
+    height,
     strokeWidth,
     pipeStyle,
+    width = height / 2,
   } = props;
   return (
-    <IconSVG {...props}>
+    <IconSVG
+      {...props}
+      width={width}
+    >
       {pipeStyle !== PipeStyle.None && (
         <>
           <line
-            x1={size / 2}
+            x1={width / 2}
             y1={0}
-            x2={size / 2}
-            y2={pipeStyle === PipeStyle.Bent ? size / 2 : size}
+            x2={width / 2}
+            y2={pipeStyle === PipeStyle.Bent ? height / 2 : height}
             strokeLinecap='square'
           />
           {pipeStyle !== PipeStyle.Vertical && (
             <line
-              x1={size / 2}
-              y1={size / 2}
-              x2={size - strokeWidth}
-              y2={size / 2}
+              x1={width / 2}
+              y1={height / 2}
+              x2={width - strokeWidth}
+              y2={height / 2}
               strokeLinecap='square'
             />
           )}

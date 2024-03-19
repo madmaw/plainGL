@@ -2,6 +2,6 @@ import type Color from 'colorjs.io';
 
 export type IconProps = {
   color: Color,
-  size: number,
+  height: number,
   strokeWidth: number,
 };

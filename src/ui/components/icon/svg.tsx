@@ -3,15 +3,16 @@ import { type IconProps } from './types';
 
 export function IconSVG({
   color,
-  size,
+  width,
+  height,
   strokeWidth,
   children,
-}: PropsWithChildren<IconProps>) {
+}: PropsWithChildren<IconProps & { width: number }>) {
   return (
     <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
       fill='none'
       stroke={color.toString()}
       strokeWidth={strokeWidth}

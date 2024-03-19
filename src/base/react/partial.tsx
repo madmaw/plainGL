@@ -23,16 +23,17 @@ export function createPartialComponent<
 export function createPartialObserverComponent<
   ComponentProps,
   CurriedProps,
+  AdditionalProps = {},
 >(
   Component: ComponentType<ComponentProps>,
-  curriedPropsSource: () => CurriedProps,
+  curriedPropsSource: (additionalProps: AdditionalProps) => CurriedProps,
 ) {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const C = Component as ComponentType<CurriedProps & RemainingComponentProps<ComponentProps, CurriedProps>>;
-  return observer(function (exposedProps: RemainingComponentProps<ComponentProps, CurriedProps>) {
+  return observer(function (exposedProps: RemainingComponentProps<ComponentProps, CurriedProps> & AdditionalProps) {
     return (
       <C
-        {...curriedPropsSource()}
+        {...curriedPropsSource(exposedProps)}
         {...exposedProps}
       />
     );

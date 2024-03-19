@@ -2,23 +2,26 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { type PipeStyle } from 'ui/components/icon/tree_guide';
 import {
-  OpenState,
+  type OpenState,
   type TreeListItemProps,
 } from './tree';
 
-export type OpenButton = React.ComponentType<{ open: boolean, onToggleOpen: () => void }>;
+export type OpenButton = React.ComponentType<{
+  readonly pipes: readonly PipeStyle[],
+  readonly open: OpenState,
+  readonly onToggleOpen: () => void,
+}>;
 export type GuideIcon = React.ComponentType<{ pipeStyle: PipeStyle }>;
 
 export type BaseTreeListItemProps<T> = TreeListItemProps<T> & {
   ListItem: React.ComponentType<T>,
   OpenButton: OpenButton,
-  GuideIcon: GuideIcon,
 };
 
 const BaseTreeListItemContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  align-items: center;
   box-sizing: border-box;
 `;
 
@@ -28,24 +31,15 @@ export function BaseTreeListItem<T>({
   onToggleOpen,
   ListItem,
   OpenButton,
-  GuideIcon,
   pipes,
 }: BaseTreeListItemProps<T>) {
   return (
     <BaseTreeListItemContainer>
-      {pipes.map((pipeStyle, index) => (
-        <GuideIcon
-          key={index}
-          pipeStyle={pipeStyle}
-        />
-      ))}
-      {open !== OpenState.Childless
-        && (
-          <OpenButton
-            open={open === OpenState.Open}
-            onToggleOpen={onToggleOpen}
-          />
-        )}
+      <OpenButton
+        pipes={pipes}
+        open={open}
+        onToggleOpen={onToggleOpen}
+      />
       <ListItem
         {...value}
         {...{}}

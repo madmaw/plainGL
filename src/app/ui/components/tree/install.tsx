@@ -1,13 +1,14 @@
+import { type Icon } from 'app/ui/components/icon/types';
+import { Size } from 'app/ui/metrics';
+import { createPartialComponent } from 'base/react/partial';
 import { observer } from 'mobx-react';
 import {
   useCallback,
   useMemo,
 } from 'react';
-import { UnstyledButton } from 'ui/components/button/unstyled';
-import {
-  BaseTreeListItem,
-  type GuideIcon,
-} from 'ui/components/tree/base_item';
+import { type PipeStyle } from 'ui/components/icon/tree_guide';
+import { BaseTreeListItem } from 'ui/components/tree/base_item';
+import { OpenOrCloseButton } from 'ui/components/tree/open_close_button';
 import {
   Tree as TreeImpl,
   type TreeListItemProps,
@@ -15,22 +16,33 @@ import {
 import { type TreeProps } from './types';
 
 export function install({
-  ExpandedOrCollapsedIcon,
-  TreeGuideIcon,
+  ExpandedOrCollapsedIcon: ExpandedOrCollapsedIconImpl,
+  TreeGuideIcon: TreeGuideIconImpl,
 }: {
-  ExpandedOrCollapsedIcon: React.ComponentType<{ expanded: boolean }>,
-  TreeGuideIcon: GuideIcon,
+  ExpandedOrCollapsedIcon: Icon<{ expanded: boolean }>,
+  TreeGuideIcon: Icon<{ pipeStyle: PipeStyle }>,
 }) {
-  const TreeOpenButton = function ({
-    open,
-    onToggleOpen,
-  }: { open: boolean, onToggleOpen: () => void }) {
-    return (
-      <UnstyledButton onClick={onToggleOpen}>
-        <ExpandedOrCollapsedIcon expanded={open} />
-      </UnstyledButton>
-    );
-  };
+  const ExpandedOrCollapsedIcon = createPartialComponent(
+    ExpandedOrCollapsedIconImpl,
+    {
+      size: Size.Medium,
+    },
+  );
+
+  const TreeGuideIcon = createPartialComponent(
+    TreeGuideIconImpl,
+    {
+      size: Size.Medium,
+    },
+  );
+
+  const TreeOpenButton = createPartialComponent(
+    OpenOrCloseButton,
+    {
+      ExpandedOrCollapsedIcon,
+      TreeGuideIcon,
+    },
+  );
 
   const Tree = function<T,> ({
     items,
@@ -44,7 +56,6 @@ export function install({
           <BaseTreeListItemOfType
             {...props}
             OpenButton={TreeOpenButton}
-            GuideIcon={TreeGuideIcon}
             ListItem={TreeListItemContent}
           />
         );
@@ -53,7 +64,7 @@ export function install({
     );
 
     // observe changes to metrics and hack around eslint not being able to reason about this
-    // in a useCallback
+    // in the above useCallback
     const ObserverTreeListItem = useMemo(function () {
       return observer(TreeListItem);
     }, [TreeListItem]);
