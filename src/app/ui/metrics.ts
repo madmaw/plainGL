@@ -14,7 +14,8 @@ export const SIZES: Size[] = Object.keys(_SIZES).map(Number);
 
 export type Metrics = {
   gridBaseline: number,
-  textLineHeight: number,
+  fontSize: number,
+  lineHeight: number,
   borderWidth: number,
   borderRadius: number,
   strokeWidth: number,

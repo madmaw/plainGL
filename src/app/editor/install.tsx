@@ -1,4 +1,6 @@
 import { type Tree } from 'app/ui/components/tree/types';
+import { type TypographicHierarchy } from 'app/ui/components/typography/types';
+import { type Metrics } from 'app/ui/metrics';
 import {
   observable,
   runInAction,
@@ -12,14 +14,20 @@ import { install as installSkeleton } from './skeleton/install';
 
 export function install({
   SceneNavigationTree,
+  typographicHierarchy,
+  metrics,
 }: {
   SceneNavigationTree: Tree<SceneNavigationItem>,
+  typographicHierarchy: TypographicHierarchy,
+  metrics: Metrics,
 }) {
   const projectHolder = observable.box<MutableProject>();
   const {
     SceneNavigation,
   } = installScene({
     SceneNavigationTree,
+    typographicHierarchy,
+    metrics,
   });
   const DocumentNavigation = observer(
     function () {

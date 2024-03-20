@@ -6,8 +6,7 @@ import {
   WebGLVersion,
 } from 'app/editor/model';
 
-export const CUBE: ConvexSolid = {
-  name: undefined,
+export const CUBE: Omit<ConvexSolid, 'name'> = {
   attributes: new Map(),
   offset: [
     0,
@@ -99,7 +98,10 @@ export const CUBE: ConvexSolid = {
 const CUBE_SCENERY: Scenery = {
   attributes: new Map(),
   uniforms: new Map(),
-  solid: CUBE,
+  solid: {
+    name: 'cube',
+    ...CUBE,
+  },
   program: undefined,
 };
 

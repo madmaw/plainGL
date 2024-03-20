@@ -137,7 +137,7 @@ export const planeDescriptor = recordDescriptor({
 export type ConvexSolid = typeof convexSolidDescriptor['aState'];
 export type MutableConvexSolid = typeof convexSolidDescriptor['aMutable'];
 export const convexSolidDescriptor = recordDescriptor({
-  name: optionalStringDescriptor,
+  name: stringDescriptor,
   offset: vector3fDescriptor,
   planes: listDescriptor(planeDescriptor),
   attributes: shaderParametersDescriptor,
@@ -147,7 +147,7 @@ export const convexSolidDescriptor = recordDescriptor({
 // export type CompositeSolid = typeof compositeSolidDescriptor['aState'];
 // export type MutableCompositeSolid = typeof compositeSolidDescriptor['aMutable'];
 export type CompositeSolid = {
-  readonly name?: string,
+  readonly name: string,
   readonly planes?: undefined,
   readonly offset: Vector3f,
   readonly additions: readonly Solid[],
@@ -155,7 +155,7 @@ export type CompositeSolid = {
   readonly attributes: ShaderParameters,
 };
 export type MutableCompositeSolid = {
-  name?: string,
+  name: string,
   readonly planes?: undefined,
   offset: Vector3f,
   additions: MutableSolid[],
@@ -164,7 +164,7 @@ export type MutableCompositeSolid = {
   __aMutable: true,
 };
 export const compositeSolidDescriptor = recordDescriptor({
-  name: optionalStringDescriptor,
+  name: stringDescriptor,
   n: integerDescriptor,
   offset: vector3fDescriptor,
   additions: listDescriptor(solidDescriptor),
@@ -184,7 +184,7 @@ export const sceneryDescriptor = recordDescriptor({
 export type Scene = typeof sceneDescriptor['aState'];
 export type MutableScene = typeof sceneDescriptor['aMutable'];
 export const sceneDescriptor = recordDescriptor({
-  name: optionalStringDescriptor,
+  name: stringDescriptor,
   scenery: listDescriptor(sceneryDescriptor),
   program: optionalDescriptor(programDescriptor),
   attributes: shaderParametersDescriptor,
@@ -192,7 +192,7 @@ export const sceneDescriptor = recordDescriptor({
 });
 
 export const projectDescriptor = recordDescriptor({
-  name: optionalStringDescriptor,
+  name: stringDescriptor,
   scenes: listDescriptor(sceneDescriptor),
 });
 

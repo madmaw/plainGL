@@ -16,13 +16,15 @@ export type GuideIcon = React.ComponentType<{ pipeStyle: PipeStyle }>;
 export type BaseTreeListItemProps<T> = TreeListItemProps<T> & {
   ListItem: React.ComponentType<T>,
   OpenButton: OpenButton,
+  gap: number,
 };
 
-const BaseTreeListItemContainer = styled.div`
+const BaseTreeListItemContainer = styled.div<{ gap: number }>`
   display: flex;
   flex-direction: row;
   align-items: center;
   box-sizing: border-box;
+  gap: ${({ gap }) => gap}px;
 `;
 
 export function BaseTreeListItem<T>({
@@ -32,9 +34,10 @@ export function BaseTreeListItem<T>({
   ListItem,
   OpenButton,
   pipes,
+  gap,
 }: BaseTreeListItemProps<T>) {
   return (
-    <BaseTreeListItemContainer>
+    <BaseTreeListItemContainer gap={gap}>
       <OpenButton
         pipes={pipes}
         open={open}

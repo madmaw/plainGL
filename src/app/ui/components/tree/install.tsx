@@ -1,5 +1,8 @@
 import { type Icon } from 'app/ui/components/icon/types';
-import { Size } from 'app/ui/metrics';
+import {
+  type Metrics,
+  Size,
+} from 'app/ui/metrics';
 import { createPartialComponent } from 'base/react/partial';
 import { observer } from 'mobx-react';
 import {
@@ -18,9 +21,11 @@ import { type TreeProps } from './types';
 export function install({
   ExpandedOrCollapsedIcon: ExpandedOrCollapsedIconImpl,
   TreeGuideIcon: TreeGuideIconImpl,
+  metrics,
 }: {
   ExpandedOrCollapsedIcon: Icon<{ expanded: boolean }>,
   TreeGuideIcon: Icon<{ pipeStyle: PipeStyle }>,
+  metrics: Metrics,
 }) {
   const ExpandedOrCollapsedIcon = createPartialComponent(
     ExpandedOrCollapsedIconImpl,
@@ -57,14 +62,15 @@ export function install({
             {...props}
             OpenButton={TreeOpenButton}
             ListItem={TreeListItemContent}
+            gap={metrics.gridBaseline}
           />
         );
       },
       [TreeListItemContent],
     );
 
-    // observe changes to metrics and hack around eslint not being able to reason about this
-    // in the above useCallback
+    // observe changes to metrics and hack around eslint not being able to reason about
+    // creating an observer in the above useCallback
     const ObserverTreeListItem = useMemo(function () {
       return observer(TreeListItem);
     }, [TreeListItem]);

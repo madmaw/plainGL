@@ -25,6 +25,7 @@ module.exports = {
     'import',
     'unused-imports',
     'no-relative-import-paths',
+    'lingui',
   ],
   extends: [
     'eslint:recommended',

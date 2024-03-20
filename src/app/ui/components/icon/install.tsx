@@ -26,7 +26,7 @@ export function install({
 }) {
   const iconPropsSource: ({ size }: { size: Size }) => IconProps = function ({ size }) {
     return {
-      height: metrics[size].textLineHeight,
+      height: metrics[size].lineHeight,
       color: theme.foreground,
       strokeWidth: metrics[size].strokeWidth,
     };

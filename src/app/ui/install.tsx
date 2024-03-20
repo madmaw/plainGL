@@ -14,23 +14,27 @@ export function install() {
     [Size.Small]: {
       borderWidth: 1,
       borderRadius: 2,
-      textLineHeight: 12,
+      lineHeight: 12,
+      fontSize: 8,
     },
     [Size.Medium]: {
       borderWidth: 1,
       borderRadius: 4,
-      textLineHeight: 24,
+      lineHeight: 24,
+      fontSize: 16,
     },
     [Size.Large]: {
       borderWidth: 1,
       borderRadius: 8,
-      textLineHeight: 48,
+      lineHeight: 48,
+      fontSize: 32,
     },
   };
 
   const theme: Theme = {
     foreground: new Color('black'),
     background: new Color('white'),
+    fontFamily: 'sans-serif',
   };
 
   const metrics = SIZES.reduce(function (acc, size) {
@@ -44,8 +48,13 @@ export function install() {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   }, {} as Record<Size, Metrics>);
 
-  return installComponents({
+  const components = installComponents({
     metrics,
     theme,
   });
+  return {
+    ...components,
+    metrics,
+    theme,
+  };
 }
