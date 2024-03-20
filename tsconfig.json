@@ -105,7 +105,19 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true, /* Skip type checking all .d.ts files. */
+    "plugins": [
+      {
+        "name": "@styled/typescript-styled-plugin",
+        "lint": {
+          // enable the "label" property
+          "validProperties": [
+            "label",
+          ],
+          "unknownProperties": "ignore",
+        }
+      }
+    ],
   },
   "include": [
     ".eslintrc.cjs",
