@@ -1,5 +1,7 @@
 import Color from 'colorjs.io';
+import { type LoggingService } from 'service/logging';
 import { install as installComponents } from './components/install';
+import { install as installLinguiWrapper } from './lingui/install';
 import {
   type Metrics,
   Size,
@@ -9,7 +11,11 @@ import { type Theme } from './theme';
 
 type SizedMetrics = Omit<Metrics, 'gridBaseline' | 'strokeWidth'>;
 
-export function install() {
+export function install({
+  loggingService,
+}: {
+  loggingService: LoggingService,
+}) {
   const sizedMetrics: Record<Size, SizedMetrics> = {
     [Size.Small]: {
       borderWidth: 1,
@@ -52,9 +58,13 @@ export function install() {
     metrics,
     theme,
   });
+  const LinguiWrapper = installLinguiWrapper({
+    loggingService,
+  });
   return {
     ...components,
     metrics,
     theme,
+    LinguiWrapper,
   };
 }

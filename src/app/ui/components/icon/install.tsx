@@ -5,6 +5,7 @@ import {
 import { type Theme } from 'app/ui/theme';
 import { createPartialObserverComponent } from 'base/react/partial';
 import { ExpandedOrCollapsedIcon as ExpandedOrCollapsedIconImpl } from 'ui/components/icon/expanded_or_collapsed';
+import { SpinnerIcon as SpinnerIconImpl } from 'ui/components/icon/spinner';
 import {
   type PipeStyle,
   TreeGuideIcon as TreeGuideIconImpl,
@@ -32,10 +33,12 @@ export function install({
     };
   };
 
-  const TreeGuideIcon = createPartialObserverComponent(TreeGuideIconImpl, iconPropsSource);
   const ExpandedOrCollapsedIcon = createPartialObserverComponent(ExpandedOrCollapsedIconImpl, iconPropsSource);
+  const SpinnerIcon = createPartialObserverComponent(SpinnerIconImpl, iconPropsSource);
+  const TreeGuideIcon = createPartialObserverComponent(TreeGuideIconImpl, iconPropsSource);
   return {
-    TreeGuideIcon,
     ExpandedOrCollapsedIcon,
+    SpinnerIcon,
+    TreeGuideIcon,
   };
 }

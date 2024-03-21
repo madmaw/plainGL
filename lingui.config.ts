@@ -4,8 +4,8 @@ const config: LinguiConfig = {
   locales: ['en'],
   catalogs: [
     {
-      path: '<rootDir>/src/locales/{locale}',
-      include: ['src'],
+      path: '<rootDir>/src/app/editor/locales/{locale}',
+      include: ['src/app/editor'],
     },
   ],
 };

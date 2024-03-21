@@ -1,3 +1,5 @@
+import { msg } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 import { type Scene } from 'app/editor/model';
 import { type Tree } from 'app/ui/components/tree/types';
 import { type TypographicHierarchy } from 'app/ui/components/typography/types';
@@ -38,17 +40,18 @@ export function install({
   );
 
   const SceneNavigationTreeListItem = function (item: SceneNavigationItem) {
+    const { _ } = useLingui();
     switch (item.type) {
       case SceneNavigationItemType.Plane:
-        return <SceneNavigationTreeListItemWithText name='Plane' />;
+        return <SceneNavigationTreeListItemWithText name={_(msg`Plane`)} />;
       case SceneNavigationItemType.Solid:
         return <SceneNavigationTreeListItemWithText name={item.value.name} />;
       case SceneNavigationItemType.Scene:
         return <SceneNavigationTreeListItemWithText name={item.value.name} />;
       case SceneNavigationItemType.CompositeSolidAdditions:
-        return <SceneNavigationTreeListItemWithText name='Additions' />;
+        return <SceneNavigationTreeListItemWithText name={_(msg`Additions`)} />;
       case SceneNavigationItemType.CompositeSolidRemovals:
-        return <SceneNavigationTreeListItemWithText name='Removals' />;
+        return <SceneNavigationTreeListItemWithText name={_(msg`Removals`)} />;
       default:
         throw new UnreachableError(item);
     }

@@ -1,11 +1,17 @@
+import { type Project } from 'app/editor/model';
+import { useCallback } from 'react';
 import { Skeleton } from './skeleton';
 
 export function install({
-  Navigation,
+  Navigation: NavigationImpl,
 }: {
-  Navigation: React.ComponentType,
+  Navigation: React.ComponentType<{ project: Project }>,
 }) {
-  return function () {
+  return function ({ project }: { project: Project }) {
+    const Navigation = useCallback(function () {
+      return <NavigationImpl project={project} />;
+    }, [project]);
+
     const Detail = () => (
       <div>
         Detail

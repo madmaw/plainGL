@@ -14,5 +14,12 @@ window.addEventListener('load', function () {
 
   const project = projectDescriptor.create(PROJECT);
 
-  app.render(<App project={project} />);
+  app.render(
+    (
+      <App
+        project={project}
+        locale='en'
+      />
+    ),
+  );
 });

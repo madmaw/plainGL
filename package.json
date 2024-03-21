@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "lint": "eslint src",
     "gh-pages": "vite build && gh-pages -d dist",
-    "messages:extract": "lingui extract"
+    "messages:extract": "lingui extract",
+    "messages:compile": "lingui compile",
+    "messages": "lingui extract && lingui compile"
   },
   "author": "",
   "license": "ISC",
