@@ -3,13 +3,13 @@ import { type Information } from 'app/ui/components/information/types';
 import { createPartialComponent } from 'base/react/partial';
 
 export function install({
-  LoadingIcon,
+  FailureIcon,
   Information,
 }: {
-  LoadingIcon: Icon,
+  FailureIcon: Icon,
   Information: Information,
 }) {
   return createPartialComponent(Information, {
-    Icon: LoadingIcon,
+    Icon: FailureIcon,
   });
 }

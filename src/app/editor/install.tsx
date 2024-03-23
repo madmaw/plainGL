@@ -1,7 +1,5 @@
 import { type Tree } from 'app/ui/components/tree/types';
-import { type TypographicHierarchy } from 'app/ui/components/typography/types';
 import { type Metrics } from 'app/ui/metrics';
-import { Async as AsyncImpl } from 'ui/components/async';
 import {
   type MutableProject,
   type Project,
@@ -10,26 +8,32 @@ import { install as installScene } from './scene/install';
 import { type SceneNavigationItem } from './scene/navigation/types';
 import { install as installSkeleton } from './skeleton/install';
 
+import { type GenericAsync } from 'app/ui/components/async/types';
+import { type Text } from 'app/ui/components/typography/types';
 import { type LinguiWrapper } from 'app/ui/lingui/types';
-import { createPartialComponent } from 'base/react/partial';
-import { type PropsWithChildren } from 'react';
+import {
+  Aligner,
+  Alignment,
+} from 'ui/components/aligner';
 
 export function install({
   SceneNavigationTree,
-  typographicHierarchy,
+  Text,
   metrics,
   LinguiWrapper,
+  Async,
 }: {
   SceneNavigationTree: Tree<SceneNavigationItem>,
-  typographicHierarchy: TypographicHierarchy,
+  Text: Text,
   metrics: Metrics,
   LinguiWrapper: LinguiWrapper,
+  Async: GenericAsync,
 }) {
   const {
     SceneNavigation,
   } = installScene({
     SceneNavigationTree,
-    typographicHierarchy,
+    Text,
     metrics,
   });
   function DocumentNavigation({ project }: { project: Project }) {
@@ -39,40 +43,31 @@ export function install({
     Navigation: DocumentNavigation,
   });
 
-  function Loading() {
-    return 'Loading...';
+  async function loadMessages(locale: string) {
+    const messages = await import(`./locales/${locale}.po`);
+    // await delay(10000);
+    // throw new Error('shit');
+    return messages;
   }
 
-  function Failure() {
-    return 'Error!';
-  }
-
-  function Success({ children }: PropsWithChildren) {
-    return children;
-  }
-
-  const Async = createPartialComponent(AsyncImpl, {
-    Loading,
-    Failure,
-    Success,
-  });
-
-  function loadMessages(locale: string) {
-    return import(`./locales/${locale}.po`);
-  }
-
+  // TODO combine all async initialization tasks
   function ProjectEditor({
     project,
     locale,
   }: { project: MutableProject, locale: string }) {
     return (
-      <LinguiWrapper
-        Async={Async}
-        loadMessages={loadMessages}
-        locale={locale}
+      <Aligner
+        xAlignment={Alignment.Middle}
+        yAlignment={Alignment.Middle}
       >
-        <Skeleton project={project} />
-      </LinguiWrapper>
+        <LinguiWrapper
+          Async={Async}
+          loadMessages={loadMessages}
+          locale={locale}
+        >
+          <Skeleton project={project} />
+        </LinguiWrapper>
+      </Aligner>
     );
   }
 

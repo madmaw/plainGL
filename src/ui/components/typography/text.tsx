@@ -6,20 +6,28 @@ import {
   type FontWeight,
 } from './types';
 
-export type TextProps = PropsWithChildren<{
+export const enum TextAlignment {
+  Start = 'start',
+  Middle = 'center',
+  End = 'end',
+}
+
+export type UnstyledTextProps = PropsWithChildren<{
   fontFamily: string,
   fontSize: number,
   fontStyle: FontStyle,
   fontWeight: FontWeight,
   lineHeight: number,
   color: Color,
+  alignment: TextAlignment,
 }>;
 
-export const Text = styled.span<TextProps>`
+export const UnstyledText = styled.span<UnstyledTextProps>`
   font-family: ${({ fontFamily }) => fontFamily};
   font-size: ${({ fontSize }) => fontSize}px;
   font-style: ${({ fontStyle }) => fontStyle};
   font-weight: ${({ fontWeight }) => fontWeight};
   line-height: ${({ lineHeight }) => lineHeight}px;
-  color: ${({ color }) => color.toString()}
+  color: ${({ color }) => color.toString()};
+  text-align: ${({ alignment }) => alignment};
 `;

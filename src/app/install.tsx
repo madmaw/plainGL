@@ -8,16 +8,18 @@ export function install() {
 
   const {
     Tree,
-    typographicHierarchy,
+    Text,
     metrics,
     LinguiWrapper,
+    GenericAsync,
   } = installUI(services);
 
   const Editor = installEditor({
     SceneNavigationTree: Tree,
-    typographicHierarchy,
+    Text,
     metrics: metrics[Size.Medium],
     LinguiWrapper,
+    Async: GenericAsync,
   });
 
   return Editor;

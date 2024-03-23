@@ -4,7 +4,9 @@ import {
 } from 'app/ui/metrics';
 import { type Theme } from 'app/ui/theme';
 import { install as installAysnc } from './async/install';
+import { install as installFailure } from './failure/install';
 import { install as installIcons } from './icon/install';
+import { install as installInformation } from './information/install';
 import { install as installLoading } from './loading/install';
 import { install as installTree } from './tree/install';
 import { install as installTypography } from './typography/install';
@@ -17,31 +19,39 @@ export function install({
   theme: Theme,
 }) {
   const {
+    AlertIcon,
     ExpandedOrCollapsedIcon,
     TreeGuideIcon,
-    SpinnerIcon,
+    LoadingIcon,
   } = installIcons({
     metrics,
     theme,
   });
 
-  const {
-    typographicHierarchy,
-  } = installTypography({
+  const Text = installTypography({
     metrics,
     theme,
   });
 
-  const {
-    IndefiniteLoading,
-  } = installLoading({
-    SpinnerIcon,
+  const Information = installInformation({
+    Text,
+  });
+
+  const IndefiniteLoadingInformation = installLoading({
+    LoadingIcon,
+    Information,
+  });
+
+  const FailureInformation = installFailure({
+    FailureIcon: AlertIcon,
+    Information,
   });
 
   const {
-    IndefiniteAsync,
+    GenericAsync,
   } = installAysnc({
-    Loading: IndefiniteLoading,
+    Loading: IndefiniteLoadingInformation,
+    Failure: FailureInformation,
   });
 
   const { Tree } = installTree({
@@ -52,7 +62,7 @@ export function install({
 
   return {
     Tree,
-    typographicHierarchy,
-    IndefiniteAsync,
+    Text,
+    GenericAsync,
   };
 }

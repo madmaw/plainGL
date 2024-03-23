@@ -1,6 +1,7 @@
 import Color from 'colorjs.io';
 import { type LoggingService } from 'service/logging';
 import { install as installComponents } from './components/install';
+import { TextType } from './components/typography/types';
 import { install as installLinguiWrapper } from './lingui/install';
 import {
   type Metrics,
@@ -20,20 +21,56 @@ export function install({
     [Size.Small]: {
       borderWidth: 1,
       borderRadius: 2,
-      lineHeight: 12,
-      fontSize: 8,
+      typography: {
+        [TextType.Body]: {
+          lineHeight: 24,
+          fontSize: 16,
+        },
+        [TextType.Subheading]: {
+          lineHeight: 24,
+          fontSize: 16,
+        },
+        [TextType.Heading]: {
+          lineHeight: 32,
+          fontSize: 24,
+        },
+      },
     },
     [Size.Medium]: {
       borderWidth: 1,
       borderRadius: 4,
-      lineHeight: 24,
-      fontSize: 16,
+      typography: {
+        [TextType.Body]: {
+          lineHeight: 32,
+          fontSize: 24,
+        },
+        [TextType.Subheading]: {
+          lineHeight: 32,
+          fontSize: 24,
+        },
+        [TextType.Heading]: {
+          lineHeight: 48,
+          fontSize: 32,
+        },
+      },
     },
     [Size.Large]: {
       borderWidth: 1,
       borderRadius: 8,
-      lineHeight: 48,
-      fontSize: 32,
+      typography: {
+        [TextType.Body]: {
+          lineHeight: 48,
+          fontSize: 32,
+        },
+        [TextType.Subheading]: {
+          lineHeight: 48,
+          fontSize: 32,
+        },
+        [TextType.Heading]: {
+          lineHeight: 64,
+          fontSize: 48,
+        },
+      },
     },
   };
 

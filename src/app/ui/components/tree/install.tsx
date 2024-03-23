@@ -30,14 +30,14 @@ export function install({
   const ExpandedOrCollapsedIcon = createPartialComponent(
     ExpandedOrCollapsedIconImpl,
     {
-      size: Size.Medium,
+      size: Size.Small,
     },
   );
 
   const TreeGuideIcon = createPartialComponent(
     TreeGuideIconImpl,
     {
-      size: Size.Medium,
+      size: Size.Small,
     },
   );
 

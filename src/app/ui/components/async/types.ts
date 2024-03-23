@@ -2,15 +2,14 @@ import {
   type ComponentType,
   type PropsWithChildren,
 } from 'react';
-import { type AsyncState } from 'ui/components/async';
+import {
+  type AsyncState,
+  type AsyncStateType,
+} from 'ui/components/async';
 
-export type IndefiniteAsyncProps<Value, Reason> = PropsWithChildren<{
-  Success: ComponentType<PropsWithChildren<{ value: Value }>>,
-  Failure: ComponentType<{ reason: Reason }>,
-  state: AsyncState<Value, Reason, void>,
-}>;
+export type GenericAsyncProps = PropsWithChildren<{ state: { type: AsyncStateType } }>;
 
-export type IndefiniteAsync<Value, Reason> = ComponentType<IndefiniteAsyncProps<Value, Reason>>;
+export type GenericAsync = ComponentType<GenericAsyncProps>;
 
 export type AsyncProps<Value, Reason, Progress> = PropsWithChildren<{
   state: AsyncState<Value, Reason, Progress>,

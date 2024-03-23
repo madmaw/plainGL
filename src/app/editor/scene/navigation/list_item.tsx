@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
+import { type Icon } from 'app/ui/components/icon/types';
 import { type Text } from 'app/ui/components/typography/types';
-import { type ComponentType } from 'react';
+import { type Size } from 'app/ui/metrics';
 
 export type SceneNavigationTreeListItemProps = {
-  Icon?: ComponentType,
+  Icon?: Icon,
   name: string,
   Text: Text,
   gap: number,
+  size: Size,
 };
 
 const Container = styled.div<{ gap: number }>`
@@ -21,11 +23,12 @@ export function SceneNavigationTreeListItem({
   Icon,
   name,
   gap,
+  size,
 }: SceneNavigationTreeListItemProps) {
   return (
     <Container gap={gap}>
-      {Icon && <Icon />}
-      <Text>
+      {Icon && <Icon size={size} />}
+      <Text size={size}>
         {name}
       </Text>
     </Container>

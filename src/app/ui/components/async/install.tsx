@@ -1,41 +1,57 @@
-import { Size } from 'app/ui/metrics';
 import { createPartialComponent } from 'base/react/partial';
-import { type ComponentType } from 'react';
 import {
-  Async,
-  type AsyncState,
-} from 'ui/components/async';
+  type ComponentType,
+  type PropsWithChildren,
+  useMemo,
+} from 'react';
+import { Async } from 'ui/components/async';
+import {
+  type GenericAsync,
+  type GenericAsyncProps,
+} from './types';
 
 export function install({
-  Loading: LoadingImpl,
+  Loading,
+  Failure,
 }: {
-  Loading: ComponentType<{ size: Size }>,
-}) {
-  const Loading = createPartialComponent(LoadingImpl, {
-    size: Size.Large,
-  });
+  Loading: ComponentType,
+  Failure: ComponentType,
+}): {
+  GenericAsync: GenericAsync,
+} {
+  const Success = function ({ children }: PropsWithChildren) {
+    return children;
+  };
 
-  function IndefiniteAsync<Value, Reason>({
-    state,
+  const Component = Async<void, void, void>;
+  const GenericAsyncImpl = createPartialComponent(Component, {
     Success,
     Failure,
-  }: {
-    state: AsyncState<Value, Reason, void>,
-    Success: ComponentType<{ value: Value }>,
-    Failure: ComponentType<{ reason: Reason }>,
-  }) {
-    const Component = Async<Value, Reason, void>;
+    Loading,
+  });
+
+  function GenericAsync({
+    children,
+    state: {
+      type,
+    },
+  }: GenericAsyncProps) {
+    const state = useMemo(function () {
+      return {
+        type,
+        value: undefined,
+        reason: undefined,
+        progress: undefined,
+      };
+    }, [type]);
     return (
-      <Component
-        Failure={Failure}
-        Loading={Loading}
-        Success={Success}
-        state={state}
-      />
+      <GenericAsyncImpl state={state}>
+        {children}
+      </GenericAsyncImpl>
     );
   }
 
   return {
-    IndefiniteAsync,
+    GenericAsync,
   };
 }

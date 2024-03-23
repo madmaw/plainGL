@@ -2,8 +2,11 @@ import { msg } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { type Scene } from 'app/editor/model';
 import { type Tree } from 'app/ui/components/tree/types';
-import { type TypographicHierarchy } from 'app/ui/components/typography/types';
-import { type Metrics } from 'app/ui/metrics';
+import { type Text } from 'app/ui/components/typography/types';
+import {
+  type Metrics,
+  Size,
+} from 'app/ui/metrics';
 import { createPartialComponent } from 'base/react/partial';
 import { UnreachableError } from 'base/unreachable_error';
 import { runInAction } from 'mobx';
@@ -24,18 +27,19 @@ import {
 
 export function install({
   SceneNavigationTree,
-  typographicHierarchy: { BodyText },
+  Text,
   metrics,
 }: {
   SceneNavigationTree: Tree<SceneNavigationItem>,
-  typographicHierarchy: TypographicHierarchy,
+  Text: Text,
   metrics: Metrics,
 }) {
   const SceneNavigationTreeListItemWithText = createPartialComponent(
     SceneNavigationTreeListItemImpl,
     {
-      Text: BodyText,
+      Text,
       gap: metrics.gridBaseline,
+      size: Size.Small,
     },
   );
 

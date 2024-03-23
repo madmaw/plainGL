@@ -6,12 +6,6 @@ export type SpinnerProps = PropsWithChildren<{
   durationMillis?: number,
 }>;
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const spin = keyframes`
   from {
     transform: rotate(0deg);
@@ -21,8 +15,7 @@ const spin = keyframes`
   }
 `;
 
-const SpinnerContainer = styled.div<{ durationMillis: number }>`
-  flex: 0;
+const Container = styled.div<{ durationMillis: number }>`
   position: relative;
   transform-origin: 50% 50%;
   animation: ${spin} ${({ durationMillis }) => durationMillis}ms linear infinite;
@@ -33,10 +26,8 @@ export function Spinner({
   children,
 }: SpinnerProps) {
   return (
-    <Container>
-      <SpinnerContainer durationMillis={durationMillis}>
-        {children}
-      </SpinnerContainer>
+    <Container durationMillis={durationMillis}>
+      {children}
     </Container>
   );
 }
