@@ -8,6 +8,7 @@ import {
   useMemo,
 } from 'react';
 import { type LoggingService } from 'service/logging';
+import { GenericAsync } from 'ui/components/async/generic';
 import {
   LinguiModel,
   LinguiPresenter,
@@ -22,7 +23,6 @@ export function install({
   return function ({
     loadMessages,
     locale,
-    Async: AsyncImpl,
     children,
   }: LinguiWrapperProps) {
     const model = useMemo(function () {
@@ -48,12 +48,11 @@ export function install({
       }, [locale]);
 
       return (
-        <AsyncImpl state={model.state}>
+        <GenericAsync state={model.state}>
           {children}
-        </AsyncImpl>
+        </GenericAsync>
       );
     }, [
-      AsyncImpl,
       model,
       requestLoadLocale,
     ]);

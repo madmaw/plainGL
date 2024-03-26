@@ -1,7 +1,9 @@
 import { IconSVG } from './svg';
 import { type IconProps } from './types';
 
-export function ExpandedOrCollapsedIcon(props: IconProps & { expanded: boolean }) {
+export type ExpandOrCollapseProps = { expanded: boolean };
+
+export function ExpandedOrCollapsedIcon(props: IconProps & ExpandOrCollapseProps) {
   const {
     height,
     strokeWidth,

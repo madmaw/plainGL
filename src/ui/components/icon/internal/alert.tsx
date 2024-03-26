@@ -8,7 +8,6 @@ export function AlertIcon(props: IconProps) {
   const {
     height,
     color,
-    strokeWidth,
   } = props;
   const width = 2 * Math.tan(Math.PI / 6) * height;
   const r = height / 6;

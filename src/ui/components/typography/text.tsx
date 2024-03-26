@@ -1,33 +1,48 @@
-import styled from '@emotion/styled';
-import type Color from 'colorjs.io';
 import { type PropsWithChildren } from 'react';
+import { useMetrics } from 'ui/metrics';
+import { useTheme } from 'ui/theme';
+import { StyledText } from './internal/text';
 import {
-  type FontStyle,
-  type FontWeight,
+  TextAlignment,
+  Typography,
 } from './types';
 
-export const enum TextAlignment {
-  Start = 'start',
-  Middle = 'center',
-  End = 'end',
+export function Text({
+  alignment = TextAlignment.Start,
+  type = Typography.Body,
+  children,
+}: PropsWithChildren<{
+  alignment?: TextAlignment,
+  type?: Typography,
+}>) {
+  const {
+    typography: metricsTypography,
+  } = useMetrics();
+  const {
+    fontSize,
+    lineHeight,
+  } = metricsTypography[type];
+  const {
+    foreground,
+    typography: themeTypography,
+  } = useTheme();
+  const {
+    fontFamily,
+    fontStyle,
+    fontWeight,
+  } = themeTypography[type];
+
+  return (
+    <StyledText
+      alignment={alignment}
+      foreground={foreground}
+      fontFamily={fontFamily}
+      fontSize={fontSize}
+      lineHeight={lineHeight}
+      fontStyle={fontStyle}
+      fontWeight={fontWeight}
+    >
+      {children}
+    </StyledText>
+  );
 }
-
-export type UnstyledTextProps = PropsWithChildren<{
-  fontFamily: string,
-  fontSize: number,
-  fontStyle: FontStyle,
-  fontWeight: FontWeight,
-  lineHeight: number,
-  color: Color,
-  alignment: TextAlignment,
-}>;
-
-export const UnstyledText = styled.span<UnstyledTextProps>`
-  font-family: ${({ fontFamily }) => fontFamily};
-  font-size: ${({ fontSize }) => fontSize}px;
-  font-style: ${({ fontStyle }) => fontStyle};
-  font-weight: ${({ fontWeight }) => fontWeight};
-  line-height: ${({ lineHeight }) => lineHeight}px;
-  color: ${({ color }) => color.toString()};
-  text-align: ${({ alignment }) => alignment};
-`;

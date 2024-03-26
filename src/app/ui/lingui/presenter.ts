@@ -12,7 +12,7 @@ import { type LoggingService } from 'service/logging';
 import {
   AsyncState,
   AsyncStateType,
-} from 'ui/components/async';
+} from 'ui/components/async/custom';
 
 export class LinguiPresenter {
   constructor(

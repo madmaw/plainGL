@@ -1,6 +1,6 @@
 import { type Tree } from 'app/ui/components/tree/types';
 import { type Text } from 'app/ui/components/typography/types';
-import { type Metrics } from 'app/ui/metrics';
+import { type Metrics } from 'ui/metrics';
 import { install as installNavigation } from './navigation/install';
 import { type SceneNavigationItem } from './navigation/types';
 

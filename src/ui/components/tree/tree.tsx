@@ -2,7 +2,7 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import { type PipeStyle } from 'ui/components/icon/tree_guide';
+import { type PipeStyle } from 'ui/components/icon/internal/tree_guide';
 import { List } from 'ui/components/list';
 
 export const enum OpenState {

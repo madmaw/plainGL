@@ -1,14 +1,18 @@
 import Color from 'colorjs.io';
 import { type LoggingService } from 'service/logging';
-import { install as installComponents } from './components/install';
-import { TextType } from './components/typography/types';
-import { install as installLinguiWrapper } from './lingui/install';
+import {
+  FontStyle,
+  FontWeight,
+  Typography,
+} from 'ui/components/typography/types';
 import {
   type Metrics,
   Size,
   SIZES,
-} from './metrics';
-import { type Theme } from './theme';
+} from 'ui/metrics';
+import { type Theme } from 'ui/theme';
+import { install as installComponents } from './components/install';
+import { install as installLinguiWrapper } from './lingui/install';
 
 type SizedMetrics = Omit<Metrics, 'gridBaseline' | 'strokeWidth'>;
 
@@ -22,15 +26,15 @@ export function install({
       borderWidth: 1,
       borderRadius: 2,
       typography: {
-        [TextType.Body]: {
+        [Typography.Body]: {
           lineHeight: 24,
           fontSize: 16,
         },
-        [TextType.Subheading]: {
+        [Typography.Subheading]: {
           lineHeight: 24,
           fontSize: 16,
         },
-        [TextType.Heading]: {
+        [Typography.Heading]: {
           lineHeight: 32,
           fontSize: 24,
         },
@@ -40,15 +44,15 @@ export function install({
       borderWidth: 1,
       borderRadius: 4,
       typography: {
-        [TextType.Body]: {
+        [Typography.Body]: {
           lineHeight: 32,
           fontSize: 24,
         },
-        [TextType.Subheading]: {
+        [Typography.Subheading]: {
           lineHeight: 32,
           fontSize: 24,
         },
-        [TextType.Heading]: {
+        [Typography.Heading]: {
           lineHeight: 48,
           fontSize: 32,
         },
@@ -58,15 +62,15 @@ export function install({
       borderWidth: 1,
       borderRadius: 8,
       typography: {
-        [TextType.Body]: {
+        [Typography.Body]: {
           lineHeight: 48,
           fontSize: 32,
         },
-        [TextType.Subheading]: {
+        [Typography.Subheading]: {
           lineHeight: 48,
           fontSize: 32,
         },
-        [TextType.Heading]: {
+        [Typography.Heading]: {
           lineHeight: 64,
           fontSize: 48,
         },
@@ -77,7 +81,23 @@ export function install({
   const theme: Theme = {
     foreground: new Color('black'),
     background: new Color('white'),
-    fontFamily: 'sans-serif',
+    typography: {
+      [Typography.Body]: {
+        fontFamily: 'sans-serif',
+        fontStyle: FontStyle.Normal,
+        fontWeight: FontWeight.Regular,
+      },
+      [Typography.Subheading]: {
+        fontFamily: 'serif',
+        fontStyle: FontStyle.Normal,
+        fontWeight: FontWeight.Bold,
+      },
+      [Typography.Heading]: {
+        fontFamily: 'serif',
+        fontStyle: FontStyle.Normal,
+        fontWeight: FontWeight.Bold,
+      },
+    },
   };
 
   const metrics = SIZES.reduce(function (acc, size) {
@@ -91,10 +111,7 @@ export function install({
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   }, {} as Record<Size, Metrics>);
 
-  const components = installComponents({
-    metrics,
-    theme,
-  });
+  const components = installComponents();
   const LinguiWrapper = installLinguiWrapper({
     loggingService,
   });

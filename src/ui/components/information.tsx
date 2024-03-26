@@ -1,15 +1,13 @@
 import styled from '@emotion/styled';
-import { type Icon } from 'app/ui/components/icon/types';
+import { type Icon } from './icon/icons';
+import { Text } from './typography/text';
 import {
-  type Text,
-  TextType,
-} from 'app/ui/components/typography/types';
-import { Size } from 'app/ui/metrics';
-import { TextAlignment } from 'ui/components/typography/text';
+  TextAlignment,
+  Typography,
+} from './typography/types';
 
 export type InformationProps = {
   Icon?: Icon,
-  Text: Text,
   heading?: string,
   message?: string,
 };
@@ -22,25 +20,22 @@ const Container = styled.div`
 
 export function Information({
   Icon,
-  Text,
   heading,
   message,
 }: InformationProps) {
   return (
     <Container>
-      {Icon && <Icon size={Size.Large} />}
+      {Icon && <Icon type={Typography.Heading} />}
       {heading && (
         <Text
           alignment={TextAlignment.Middle}
-          size={Size.Medium}
-          type={TextType.Heading}
+          type={Typography.Heading}
         />
       )}
       {message && (
         <Text
           alignment={TextAlignment.Middle}
-          size={Size.Medium}
-          type={TextType.Body}
+          type={Typography.Body}
         >
           {message}
         </Text>

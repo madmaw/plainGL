@@ -1,5 +1,5 @@
 import { type Messages } from '@lingui/core';
-import { type GenericAsync } from 'app/ui/components/async/types';
+import { type GenericAsync } from 'ui/components/async/types';
 import {
   type ComponentType,
   type PropsWithChildren,

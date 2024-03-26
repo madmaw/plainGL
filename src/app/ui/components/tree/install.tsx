@@ -1,43 +1,38 @@
-import { type Icon } from 'app/ui/components/icon/types';
-import {
-  type Metrics,
-  Size,
-} from 'app/ui/metrics';
 import { createPartialComponent } from 'base/react/partial';
 import { observer } from 'mobx-react';
 import {
   useCallback,
   useMemo,
 } from 'react';
-import { type PipeStyle } from 'ui/components/icon/tree_guide';
-import { BaseTreeListItem } from 'ui/components/tree/base_item';
+import { type Icon } from 'ui/components/icon/icons';
+import { type PipeStyle } from 'ui/components/icon/internal/tree_guide';
+import { BaseTreeListItem } from 'ui/components/tree/internal/base_item';
 import { OpenOrCloseButton } from 'ui/components/tree/open_close_button';
 import {
   Tree as TreeImpl,
   type TreeListItemProps,
 } from 'ui/components/tree/tree';
+import { Typography } from 'ui/components/typography/types';
 import { type TreeProps } from './types';
 
 export function install({
   ExpandedOrCollapsedIcon: ExpandedOrCollapsedIconImpl,
   TreeGuideIcon: TreeGuideIconImpl,
-  metrics,
 }: {
   ExpandedOrCollapsedIcon: Icon<{ expanded: boolean }>,
   TreeGuideIcon: Icon<{ pipeStyle: PipeStyle }>,
-  metrics: Metrics,
 }) {
   const ExpandedOrCollapsedIcon = createPartialComponent(
     ExpandedOrCollapsedIconImpl,
     {
-      size: Size.Small,
+      type: Typography.Body,
     },
   );
 
   const TreeGuideIcon = createPartialComponent(
     TreeGuideIconImpl,
     {
-      size: Size.Small,
+      type: Typography.Body,
     },
   );
 

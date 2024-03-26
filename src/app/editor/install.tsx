@@ -1,5 +1,4 @@
 import { type Tree } from 'app/ui/components/tree/types';
-import { type Metrics } from 'app/ui/metrics';
 import {
   type MutableProject,
   type Project,
@@ -8,33 +7,24 @@ import { install as installScene } from './scene/install';
 import { type SceneNavigationItem } from './scene/navigation/types';
 import { install as installSkeleton } from './skeleton/install';
 
-import { type GenericAsync } from 'app/ui/components/async/types';
-import { type Text } from 'app/ui/components/typography/types';
 import { type LinguiWrapper } from 'app/ui/lingui/types';
 import {
   Aligner,
   Alignment,
 } from 'ui/components/aligner';
+import { GenericAsync } from 'ui/components/async/generic';
 
 export function install({
   SceneNavigationTree,
-  Text,
-  metrics,
   LinguiWrapper,
-  Async,
 }: {
   SceneNavigationTree: Tree<SceneNavigationItem>,
-  Text: Text,
-  metrics: Metrics,
   LinguiWrapper: LinguiWrapper,
-  Async: GenericAsync,
 }) {
   const {
     SceneNavigation,
   } = installScene({
     SceneNavigationTree,
-    Text,
-    metrics,
   });
   function DocumentNavigation({ project }: { project: Project }) {
     return <SceneNavigation scene={project.scenes[0]} />;
@@ -61,7 +51,7 @@ export function install({
         yAlignment={Alignment.Middle}
       >
         <LinguiWrapper
-          Async={Async}
+          Async={GenericAsync}
           loadMessages={loadMessages}
           locale={locale}
         >

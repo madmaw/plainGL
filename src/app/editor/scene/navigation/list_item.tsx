@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { type Icon } from 'app/ui/components/icon/types';
 import { type Text } from 'app/ui/components/typography/types';
-import { type Size } from 'app/ui/metrics';
+import { type Size } from 'ui/metrics';
 
 export type SceneNavigationTreeListItemProps = {
   Icon?: Icon,

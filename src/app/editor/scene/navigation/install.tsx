@@ -3,10 +3,6 @@ import { useLingui } from '@lingui/react';
 import { type Scene } from 'app/editor/model';
 import { type Tree } from 'app/ui/components/tree/types';
 import { type Text } from 'app/ui/components/typography/types';
-import {
-  type Metrics,
-  Size,
-} from 'app/ui/metrics';
 import { createPartialComponent } from 'base/react/partial';
 import { UnreachableError } from 'base/unreachable_error';
 import { runInAction } from 'mobx';
@@ -15,6 +11,10 @@ import {
   useCallback,
   useMemo,
 } from 'react';
+import {
+  type Metrics,
+  Size,
+} from 'ui/metrics';
 import { SceneNavigationTreeListItem as SceneNavigationTreeListItemImpl } from './list_item';
 import {
   SceneNavigationTreeModel,

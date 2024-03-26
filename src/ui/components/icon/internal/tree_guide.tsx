@@ -8,7 +8,9 @@ export const enum PipeStyle {
   Split = 3,
 }
 
-export function TreeGuideIcon(props: IconProps & { pipeStyle: PipeStyle, width?: number }) {
+export type TreeGuideProps = { pipeStyle: PipeStyle, width?: number };
+
+export function TreeGuideIcon(props: IconProps & TreeGuideProps) {
   const {
     height,
     strokeWidth,

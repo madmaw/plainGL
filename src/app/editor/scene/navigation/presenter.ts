@@ -9,7 +9,7 @@ import {
   computed,
   observable,
 } from 'mobx';
-import { PipeStyle } from 'ui/components/icon/tree_guide';
+import { PipeStyle } from 'ui/components/icon/internal/tree_guide';
 import {
   OpenState,
   type TreeItem,

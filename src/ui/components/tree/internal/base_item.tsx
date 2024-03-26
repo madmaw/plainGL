@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { type PipeStyle } from 'ui/components/icon/tree_guide';
+import { type PipeStyle } from 'ui/components/icon/internal/tree_guide';
 import {
   type OpenState,
   type TreeListItemProps,
-} from './tree';
+} from 'ui/components/tree/tree';
 
 export type OpenButton = React.ComponentType<{
   readonly pipes: readonly PipeStyle[],

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { UnstyledButton } from 'ui/components/button/unstyled';
-import { type PipeStyle } from 'ui/components/icon/tree_guide';
+// TODO move type into tree
+import { type PipeStyle } from 'ui/components/icon/internal/tree_guide';
 import { OpenState } from './tree';
 
 const Container = styled.span`
