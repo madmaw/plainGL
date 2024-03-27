@@ -5,13 +5,13 @@ import {
   useMemo,
 } from 'react';
 import { type Icon } from 'ui/components/icon/icons';
-import { type PipeStyle } from 'ui/components/icon/internal/tree_guide';
-import { BaseTreeListItem } from 'ui/components/tree/internal/base_item';
+import { BaseTreeListItem } from 'ui/components/tree/base_item';
 import { OpenOrCloseButton } from 'ui/components/tree/open_close_button';
 import {
   Tree as TreeImpl,
   type TreeListItemProps,
 } from 'ui/components/tree/tree';
+import { type PipeStyle } from 'ui/components/tree/types';
 import { Typography } from 'ui/components/typography/types';
 import { type TreeProps } from './types';
 
@@ -36,7 +36,7 @@ export function install({
     },
   );
 
-  const TreeOpenButton = createPartialComponent(
+  const TreeOpenCloseButton = createPartialComponent(
     OpenOrCloseButton,
     {
       ExpandedOrCollapsedIcon,
@@ -55,9 +55,8 @@ export function install({
         return (
           <BaseTreeListItemOfType
             {...props}
-            OpenButton={TreeOpenButton}
+            OpenCloseButton={TreeOpenCloseButton}
             ListItem={TreeListItemContent}
-            gap={metrics.gridBaseline}
           />
         );
       },

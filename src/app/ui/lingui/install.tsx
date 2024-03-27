@@ -13,13 +13,16 @@ import {
   LinguiModel,
   LinguiPresenter,
 } from './presenter';
-import { type LinguiWrapperProps } from './types';
+import {
+  type LinguiWrapper,
+  type LinguiWrapperProps,
+} from './types';
 
 export function install({
   loggingService,
 }: {
   loggingService: LoggingService,
-}) {
+}): LinguiWrapper {
   return function ({
     loadMessages,
     locale,

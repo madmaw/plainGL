@@ -1,21 +1,11 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { type PipeStyle } from 'ui/components/icon/internal/tree_guide';
-import {
-  type OpenState,
-  type TreeListItemProps,
-} from 'ui/components/tree/tree';
-
-export type OpenButton = React.ComponentType<{
-  readonly pipes: readonly PipeStyle[],
-  readonly open: OpenState,
-  readonly onToggleOpen: () => void,
-}>;
-export type GuideIcon = React.ComponentType<{ pipeStyle: PipeStyle }>;
+import { type TreeListItemProps } from 'ui/components/tree/tree';
+import { type OpenCloseButton } from 'ui/components/tree/types';
 
 export type BaseTreeListItemProps<T> = TreeListItemProps<T> & {
   ListItem: React.ComponentType<T>,
-  OpenButton: OpenButton,
+  OpenCloseButton: OpenCloseButton,
   gap: number,
 };
 
@@ -32,13 +22,13 @@ export function BaseTreeListItem<T>({
   open,
   onToggleOpen,
   ListItem,
-  OpenButton,
+  OpenCloseButton,
   pipes,
   gap,
 }: BaseTreeListItemProps<T>) {
   return (
     <BaseTreeListItemContainer gap={gap}>
-      <OpenButton
+      <OpenCloseButton
         pipes={pipes}
         open={open}
         onToggleOpen={onToggleOpen}

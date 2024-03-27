@@ -10,9 +10,9 @@ import {
 } from 'mobx';
 import { type LoggingService } from 'service/logging';
 import {
-  AsyncState,
+  type AsyncState,
   AsyncStateType,
-} from 'ui/components/async/custom';
+} from 'ui/components/async/types';
 
 export class LinguiPresenter {
   constructor(

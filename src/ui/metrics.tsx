@@ -1,4 +1,5 @@
 import { checkExists } from 'base/preconditions';
+import { createPartialComponent } from 'base/react/partial';
 import {
   createContext,
   type PropsWithChildren,
@@ -7,18 +8,16 @@ import {
 import { type Typography } from './components/typography/types';
 
 export const enum Size {
-  Small = 1,
+  Small = 0,
   Medium,
   Large,
 }
 
-// force compiler to check that all sizes are handled
-const _SIZES: Record<Size, null> = {
-  [Size.Small]: null,
-  [Size.Medium]: null,
-  [Size.Large]: null,
-};
-export const SIZES: Size[] = Object.keys(_SIZES).map(Number);
+export const SIZES: Size[] = [
+  Size.Small,
+  Size.Medium,
+  Size.Large,
+];
 
 export type Metrics = {
   gridBaseline: number,
@@ -31,15 +30,13 @@ export type Metrics = {
   strokeWidth: number,
 };
 
-// TODO store Record<Size, Metrics> and have context for size too
-// and have <Bigger> <Smaller> helpers
-
-const metricsContext = createContext<Metrics | undefined>(undefined);
+const metricsContext = createContext<Record<Size, Metrics> | undefined>(undefined);
+const sizeContext = createContext<Size | undefined>(undefined);
 
 export function MetricsProvider({
   metrics,
   children,
-}: PropsWithChildren<{ metrics: Metrics }>) {
+}: PropsWithChildren<{ metrics: Record<Size, Metrics> }>) {
   const { Provider } = metricsContext;
   return (
     <Provider value={metrics}>
@@ -48,6 +45,37 @@ export function MetricsProvider({
   );
 }
 
+export function SizeProvider({
+  size,
+  children,
+}: PropsWithChildren<{ size: Size }>) {
+  const { Provider } = sizeContext;
+  return (
+    <Provider value={size}>
+      {children}
+    </Provider>
+  );
+}
+
+export function Resize({
+  children,
+  delta,
+}: PropsWithChildren<{ delta: number }>) {
+  const size = checkExists(useContext(sizeContext), 'no size context set');
+  const newSize: Size = Math.max(0, Math.min(size + delta, SIZES.length - 1));
+
+  return (
+    <SizeProvider size={newSize}>
+      {children}
+    </SizeProvider>
+  );
+}
+
+export const Bigger = createPartialComponent(Resize, { delta: 1 });
+export const Smaller = createPartialComponent(Resize, { delta: -1 });
+
 export function useMetrics(): Metrics {
-  return checkExists(useContext(metricsContext), 'no metrics context set');
+  const metrics = checkExists(useContext(metricsContext), 'no metrics context set');
+  const size = checkExists(useContext(sizeContext), 'no size context set');
+  return metrics[size];
 }

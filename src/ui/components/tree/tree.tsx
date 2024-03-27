@@ -2,14 +2,11 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import { type PipeStyle } from 'ui/components/icon/internal/tree_guide';
 import { List } from 'ui/components/list';
-
-export const enum OpenState {
-  Open,
-  Closed,
-  Childless,
-}
+import {
+  type OpenState,
+  type PipeStyle,
+} from './types';
 
 export type TreeItem<T> = {
   key: string,

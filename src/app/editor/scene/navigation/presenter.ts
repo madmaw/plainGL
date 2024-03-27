@@ -9,11 +9,11 @@ import {
   computed,
   observable,
 } from 'mobx';
-import { PipeStyle } from 'ui/components/icon/internal/tree_guide';
+import { type TreeItem } from 'ui/components/tree/tree';
 import {
   OpenState,
-  type TreeItem,
-} from 'ui/components/tree/tree';
+  PipeStyle,
+} from 'ui/components/tree/types';
 import {
   type BaseSceneNode,
   SceneNode,

@@ -1,12 +1,6 @@
+import { PipeStyle } from 'ui/components/tree/types';
 import { IconSVG } from './svg';
 import { type IconProps } from './types';
-
-export const enum PipeStyle {
-  None = 0,
-  Vertical = 1,
-  Bent = 2,
-  Split = 3,
-}
 
 export type TreeGuideProps = { pipeStyle: PipeStyle, width?: number };
 
