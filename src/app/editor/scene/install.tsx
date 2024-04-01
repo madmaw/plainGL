@@ -1,17 +1,12 @@
-import { type Tree } from 'app/ui/components/tree/types';
 import { install as installNavigation } from './navigation/install';
-import { type SceneNavigationItem } from './navigation/types';
+import { install as installRender } from './render/install';
 
-export function install({
-  SceneNavigationTree,
-}: {
-  SceneNavigationTree: Tree<SceneNavigationItem>,
-}) {
-  const SceneNavigation = installNavigation({
-    SceneNavigationTree,
-  });
+export function install() {
+  const SceneNavigation = installNavigation();
+  const SceneRender = installRender();
 
   return {
     SceneNavigation,
+    SceneRender,
   };
 }

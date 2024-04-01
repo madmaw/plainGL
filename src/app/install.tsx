@@ -13,14 +13,12 @@ export function install() {
   const services = installServices();
 
   const {
-    Tree,
     LinguiWrapper,
     metrics,
     theme,
   } = installUI(services);
 
   const Editor = installEditor({
-    SceneNavigationTree: Tree,
     LinguiWrapper,
   });
 

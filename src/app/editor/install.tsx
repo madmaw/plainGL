@@ -1,10 +1,9 @@
-import { type Tree } from 'app/ui/components/tree/types';
+import { delay } from 'base/delay';
 import {
   type MutableProject,
   type Project,
 } from './model';
 import { install as installScene } from './scene/install';
-import { type SceneNavigationItem } from './scene/navigation/types';
 import { install as installSkeleton } from './skeleton/install';
 
 import { type LinguiWrapper } from 'app/ui/lingui/types';
@@ -15,17 +14,13 @@ import {
 import { GenericAsync } from 'ui/components/async/generic';
 
 export function install({
-  SceneNavigationTree,
   LinguiWrapper,
 }: {
-  SceneNavigationTree: Tree<SceneNavigationItem>,
   LinguiWrapper: LinguiWrapper,
 }) {
   const {
     SceneNavigation,
-  } = installScene({
-    SceneNavigationTree,
-  });
+  } = installScene();
   function DocumentNavigation({ project }: { project: Project }) {
     return <SceneNavigation scene={project.scenes[0]} />;
   }
@@ -35,12 +30,15 @@ export function install({
 
   async function loadMessages(locale: string) {
     const messages = await import(`./locales/${locale}.po`);
-    // await delay(10000);
+    await delay(1000);
     // throw new Error('shit');
     return messages;
   }
 
   // TODO combine all async initialization tasks
+  // note that ling-ui initialization is a special case since we really need
+  // internationalization to report errors correctly, so perhaps that one shouldn't
+  // be combined
   function ProjectEditor({
     project,
     locale,

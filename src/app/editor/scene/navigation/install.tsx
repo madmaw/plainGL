@@ -1,7 +1,6 @@
 import { msg } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { type Scene } from 'app/editor/model';
-import { type Tree } from 'app/ui/components/tree/types';
 import { UnreachableError } from 'base/unreachable_error';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
@@ -15,16 +14,13 @@ import {
   SceneNavigationTreeModel,
   SceneNavigationTreePresenter,
 } from './presenter';
+import { SceneNavigationTree } from './tree';
 import {
   type SceneNavigationItem,
   SceneNavigationItemType,
 } from './types';
 
-export function install({
-  SceneNavigationTree,
-}: {
-  SceneNavigationTree: Tree<SceneNavigationItem>,
-}) {
+export function install() {
   const SceneNavigationTreeListItem = function (item: SceneNavigationItem) {
     const { gridBaseline } = useMetrics();
 

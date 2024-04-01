@@ -11,7 +11,6 @@ import {
   SIZES,
 } from 'ui/metrics';
 import { type Theme } from 'ui/theme';
-import { install as installComponents } from './components/install';
 import { install as installLinguiWrapper } from './lingui/install';
 
 type SizedMetrics = Omit<Metrics, 'gridBaseline' | 'strokeWidth'>;
@@ -111,12 +110,10 @@ export function install({
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   }, {} as Record<Size, Metrics>);
 
-  const components = installComponents();
   const LinguiWrapper = installLinguiWrapper({
     loggingService,
   });
   return {
-    ...components,
     metrics,
     theme,
     LinguiWrapper,
