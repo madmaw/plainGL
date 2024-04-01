@@ -20,12 +20,13 @@ export function install({
 }) {
   const {
     SceneNavigation,
+    SceneRender,
   } = installScene();
-  function DocumentNavigation({ project }: { project: Project }) {
+  function ProjectNavigation({ project }: { project: Project }) {
     return <SceneNavigation scene={project.scenes[0]} />;
   }
   const Skeleton = installSkeleton({
-    Navigation: DocumentNavigation,
+    Navigation: ProjectNavigation,
   });
 
   async function loadMessages(locale: string) {
